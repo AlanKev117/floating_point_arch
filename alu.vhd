@@ -11,7 +11,7 @@ ENTITY alu IS
 
         -- Outputs
         register_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-        flags : OUT STD_LOGIC_VECTOR(4 DOWNTO 0) -- Z, N, V
+        flags : OUT STD_LOGIC_VECTOR(4 DOWNTO 0) -- Z, N, I, DEN, NAN
 
     );
 END alu;
