@@ -90,6 +90,6 @@ PACKAGE BODY alu_pkg IS
 
         res <= to_slv(float_out);
 
-    END fadd;
+    END alu_proc;
 
 END alu_pkg;
