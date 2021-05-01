@@ -11,7 +11,9 @@ ENTITY control_unit IS
         -- accumulator control bits
         ac_write_enable, ac_write_octet, ac_sel : OUT STD_LOGIC;
         -- alu opcode
-        aluop : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+        aluop : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+        -- prime counter inc.
+        pc_inc : OUT STD_LOGIC
     );
 END control_unit;
 
@@ -123,7 +125,16 @@ BEGIN
                     WHEN OTHERS => NULL;
 
                 END CASE;
+                pc_inc <= '1';
             ELSE
+                aluop <= "111"; -- no op. for alu
+                ac_write_enable <= '0';
+                ac_write_octet <= '0';
+                ac_sel <= '0';
+                rf_bit_mutate <= '0';
+                rf_bit_value <= '0';
+                rf_read_write <= '0';
+                pc_inc <= '0';
             END IF;
         ELSE
         END IF;

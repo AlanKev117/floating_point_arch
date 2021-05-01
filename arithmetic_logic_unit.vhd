@@ -2,7 +2,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE work.alu_pkg.ALL;
 
-ENTITY alu IS
+ENTITY arithmetic_logic_unit IS
     PORT (
         -- Inputs
         aluop : IN STD_LOGIC_VECTOR(2 DOWNTO 0) -- micro op code for alu
@@ -16,7 +16,7 @@ ENTITY alu IS
     );
 END alu;
 
-ARCHITECTURE alu_arch OF alu IS
+ARCHITECTURE alu_arch OF arithmetic_logic_unit IS
 BEGIN
 
     PROCESS (register_1, register_2, aluop) IS
