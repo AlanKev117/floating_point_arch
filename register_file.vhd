@@ -25,9 +25,8 @@ BEGIN
             ELSIF read_write = '1' THEN -- write 32 bit value to register
                 registers(conv_integer(prime_sel)) <= data_in;
             ELSE -- read two registers
-                prime_out <= registers(conv_integer(prime_sel))
-                    second_out <= registers(conv_integer(second_sel))
-                END IF;
+                prime_out <= registers(conv_integer(prime_sel));
+                second_out <= registers(conv_integer(second_sel));
             END IF;
         ELSE
         END IF;

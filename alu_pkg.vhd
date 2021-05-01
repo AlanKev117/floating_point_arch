@@ -34,25 +34,25 @@ PACKAGE BODY alu_pkg IS
 
             WHEN "000" =>
                 -- add
-                float_out <= float_1 + float_2;
+                float_out := float_1 + float_2;
             WHEN "001" =>
                 -- sub
-                float_out <= float_1 - float_2;
+                float_out := float_1 - float_2;
             WHEN "010" =>
                 -- mul
-                float_out <= float_1 * float_2;
+                float_out := float_1 * float_2;
             WHEN "011" =>
                 -- div
-                float_out <= float_1 / float_2;
+                float_out := float_1 / float_2;
             WHEN "100" =>
                 -- and
-                float_out <= float_1 AND float_2;
+                float_out := float_1 AND float_2;
             WHEN "101" =>
                 -- or
-                float_out <= float_1 OR float_2;
+                float_out := float_1 OR float_2;
             WHEN "110" =>
                 -- xor
-                float_out <= float_1 XOR float_2;
+                float_out := float_1 XOR float_2;
             WHEN OTHERS => -- "111"
                 -- nop
                 NULL;
