@@ -16,7 +16,7 @@ ARCHITECTURE acc_arch OF accumulator IS
     SIGNAL acc_register : STD_LOGIC_VECTOR(31 DOWNTO 0);
 BEGIN
 
-    PROCESS (clk) IS
+    PROCESS (clk)
         VARIABLE high, low : INTEGER;
     BEGIN
         IF rising_edge(clk) THEN

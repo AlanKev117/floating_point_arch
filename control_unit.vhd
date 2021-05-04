@@ -20,7 +20,7 @@ END control_unit;
 ARCHITECTURE con_arch OF control_unit IS
 BEGIN
 
-    PROCESS (clk) IS
+    PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
             IF exe = '1' THEN

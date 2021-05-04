@@ -5,6 +5,10 @@ USE work.arithmetic_logic_unit.ALL;
 USE work.accumulator.ALL;
 USE work.control_unit.ALL;
 USE work.register_file.ALL;
+USE work.lcd_controller.ALL;
+USE work.two_line_decoder.ALL;
+USE work.pc_decoder.ALL;
+USE work.instruction_decoder.ALL;
 
 ENTITY main IS
     PORT (
@@ -90,6 +94,7 @@ BEGIN
     mux_out <= op_1 WHEN sig_ac_sel = '1' ELSE
         alu_res;
 
+    -- outputs
     ax_out <= accout_datain;
 
     pc_out <= pc;

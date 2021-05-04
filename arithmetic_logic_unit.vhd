@@ -14,12 +14,12 @@ ENTITY arithmetic_logic_unit IS
         flags : OUT STD_LOGIC_VECTOR(4 DOWNTO 0) -- Z, N, I, DEN, NAN
 
     );
-END alu;
+END arithmetic_logic_unit;
 
 ARCHITECTURE alu_arch OF arithmetic_logic_unit IS
 BEGIN
 
-    PROCESS (register_1, register_2, aluop) IS
+    PROCESS (register_1, register_2, aluop)
     BEGIN
         alu_proc(aluop, register_1, register_2, register_out, flags);
     END PROCESS;
