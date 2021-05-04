@@ -7,7 +7,7 @@ ENTITY register_file IS
         clk, read_write, bit_mutate, bit_value : IN STD_LOGIC;
         bit_pos : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
         data_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-        prime_sel, second_sel : IN STD_LOGIC(1 DOWNTO 0); -- addresses
+        prime_sel, second_sel : IN STD_LOGIC_VECTOR(1 DOWNTO 0); -- addresses
         prime_out, second_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0) -- data out
     );
 END register_file;

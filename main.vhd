@@ -1,7 +1,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.std_logic_unsigned.ALL;
-USE work.arithmetic_logic_unit.ALL;
+USE work.floating_point_unit.ALL;
 USE work.accumulator.ALL;
 USE work.control_unit.ALL;
 USE work.register_file.ALL;
@@ -20,7 +20,7 @@ ENTITY main IS
         -- pc_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0); -- se reemplazan por dos displays
         pc1_display, pc2_display : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
         inst3, inst2, inst1, inst0 : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-        flags_out : OUT STD_LOGIC_VECTOR(4 DOWNTO 0)
+        flags_out : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
     );
 END main;
 
@@ -61,7 +61,7 @@ BEGIN
         prime_out => op_1,
         second_out => op_2);
 
-    ALU : arithmetic_logic_unit
+    ALU : floating_point_unit
     PORT MAP(
         aluop => sig_aluop,
         register_1 => op_1,

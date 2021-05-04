@@ -24,7 +24,7 @@ BEGIN
                 acc_register <= (OTHERS => '0');
             ELSIF write_enable = '1' THEN
                 IF write_octet = '1' THEN
-                    low := conv_integer(part) * 8;
+                    low := conv_integer(unsigned(part)) * 8;
                     high := low + 7;
                     acc_register(high DOWNTO low) <= octet_in;
                 ELSE
