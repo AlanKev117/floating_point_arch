@@ -63,6 +63,8 @@ BEGIN
 
     ALU : floating_point_unit
     PORT MAP(
+        clk => clk,
+        clr => clr,
         aluop => sig_aluop,
         register_1 => op_1,
         register_2 => op_2,
