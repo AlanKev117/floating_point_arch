@@ -6,7 +6,7 @@ ENTITY float_point_unit IS
     PORT (
         -- Inputs
         clk, clr : IN STD_LOGIC;
-        aluop : IN STD_LOGIC_VECTOR(2 DOWNTO 0) -- micro op code for alu
+        aluop : IN STD_LOGIC_VECTOR(2 DOWNTO 0); -- micro op code for alu
         register_1 : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         register_2 : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 
@@ -20,20 +20,26 @@ END float_point_unit;
 ARCHITECTURE fpu_arch OF float_point_unit IS
     TYPE step IS (quiet, await, binary_flags);
     SIGNAL state : step;
-    SIGNAL r1, r2 : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL go_add, go_mul, go_div : STD_LOGIC;
     SIGNAL done_add, done_mul, done_div : STD_LOGIC;
     SIGNAL add_res, mul_res, div_res : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL ov_mul, ov_div : STD_LOGIC;
+    SIGNAL second_sign : STD_LOGIC;
 BEGIN
 
-    r1 <= register_1;
-    r2 <= register_2;
+    SIGN : PROCESS (aluop)
+    BEGIN
+        IF aluop = "001" THEN
+            second_sign <= NOT register_1(31);
+        ELSE
+            second_sign <= register_1(31);
+        END IF;
+    END PROCESS;
 
     MULT : FPP_MULT
     PORT MAP(
-        A => r1,
-        B => r2,
+        A => register_1,
+        B => register_2,
         clk => clk,
         reset => clr,
         go => go_mul,
@@ -44,8 +50,8 @@ BEGIN
 
     DIVIDE : FPP_DIVIDE
     PORT MAP(
-        A => r1,
-        B => r2,
+        A => register_1,
+        B => register_2,
         clk => clk,
         reset => clr,
         go => go_div,
@@ -56,8 +62,8 @@ BEGIN
 
     ADD_SUB : FPP_ADD_SUB
     PORT MAP(
-        A => r1,
-        B => r2,
+        A => register_1,
+        B => second_sign & register_2(30 downto 0),
         clk => clk,
         reset => clr,
         go => go_add,
@@ -80,7 +86,6 @@ BEGIN
                             go_add <= '1';
                             state <= await;
                         WHEN "001" =>
-                            r2(31) <= NOT r2(31);
                             go_add <= '1';
                             state <= await;
                         WHEN "010" =>
