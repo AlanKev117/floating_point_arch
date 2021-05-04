@@ -5,17 +5,21 @@ USE work.arithmetic_logic_unit.ALL;
 USE work.accumulator.ALL;
 USE work.control_unit.ALL;
 USE work.register_file.ALL;
-USE work.lcd_controller.ALL;
-USE work.two_line_decoder.ALL;
 USE work.pc_decoder.ALL;
 USE work.instruction_decoder.ALL;
+USE work.two_line_decoder.ALL;
+USE work.lcd_controller.ALL;
 
 ENTITY main IS
     PORT (
         clk, clr, exe : IN STD_LOGIC;
         instruction : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
-        ax_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-        pc_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+        -- ax_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0); -- se reemplazan por el lcd
+        rw, rs, e : OUT STD_LOGIC; --read/write, setup/data, and enable for lcd
+        lcd_data : OUT STD_LOGIC_VECTOR(7 DOWNTO 0); --data signals for lcd
+        -- pc_out : OUT STD_LOGIC_VECTOR(7 DOWNTO 0); -- se reemplazan por dos displays
+        pc1_display, pc2_display : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+        inst3, inst2, inst1, inst0 : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
         flags_out : OUT STD_LOGIC_VECTOR(4 DOWNTO 0)
     );
 END main;
@@ -94,9 +98,42 @@ BEGIN
     mux_out <= op_1 WHEN sig_ac_sel = '1' ELSE
         alu_res;
 
-    -- outputs
-    ax_out <= accout_datain;
+    -- Outputs
+    -- ax_out <= accout_datain;
+    -- pc_out <= pc;
+    PC_OUT : pc_decoder
+    PORT MAP(
+        octet => pc,
+        left => pc1_display,
+        right => pc2_display
+    );
 
-    pc_out <= pc;
+    INST_OUT : instruction_decoder
+    PORT MAP(
+        instruction => instruction(13 DOWNTO 10);
+        d3 => inst3,
+        d2 => inst2,
+        d1 => inst1,
+        d0 => inst0
+    );
+
+    LCD_LINES : two_line_decoder
+    PORT MAP(
+        ax_in => accout_datain,
+        line1_buffer => line1,
+        line2_buffer => line2
+    );
+
+    LCD : lcd_controller
+    PORT MAP(
+        clk => clk;
+        reset_n => clr;
+        rw => rw,
+        rs => rs,
+        e => e,
+        lcd_data => lcd_data,
+        line1_buffer => line1,
+        line2_buffer => line2
+    );
 
 END ARCHITECTURE; -- arch
