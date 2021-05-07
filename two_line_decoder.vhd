@@ -1,3 +1,15 @@
+--          INSTITUTO POLITECNICO NACIONAL 
+--           Escuela Superior de Cómputo
+--           Arquitectura de Computadoras
+--
+--           Jimenez Vargas Carlos Alexis
+--                Ramos Gómez Elisa
+--         Santillan Zaragoza Erick Ignacio
+--
+--     Practica 2 Arquitectura RISK de 8 bits
+
+-- Version 1.1
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
@@ -59,7 +71,41 @@ ARCHITECTURE decoder_arch OF two_line_decoder IS
     END nibble_to_char;
 
 BEGIN
-    
-    line1_buffer <= char_a & char_x & char_colon & char_space & nibble_to_char(ax_in(31 DOWNTO 28)) & nibble_to_char(ax_in(27 DOWNTO 24)) & nibble_to_char(ax_in(23 DOWNTO 20)) & nibble_to_char(ax_in(19 DOWNTO 16)) & nibble_to_char(ax_in(15 DOWNTO 12)) & nibble_to_char(ax_in(11 DOWNTO 8) & nibble_to_char(ax_in(7 DOWNTO 4)) & nibble_to_char(ax_in(3 DOWNTO 0)) & x"00000000";
-    line2_buffer <= x"00000000000000000000000000000000";
+
+    line1_buffer <= -- AX: xxxxxxxx
+        char_a &
+        char_x &
+        char_colon &
+        char_space &
+        nibble_to_char(ax_in(31 DOWNTO 28)) &
+        nibble_to_char(ax_in(27 DOWNTO 24)) &
+        nibble_to_char(ax_in(23 DOWNTO 20)) &
+        nibble_to_char(ax_in(19 DOWNTO 16)) &
+        nibble_to_char(ax_in(15 DOWNTO 12)) &
+        nibble_to_char(ax_in(11 DOWNTO 8)) &
+        nibble_to_char(ax_in(7 DOWNTO 4)) &
+        nibble_to_char(ax_in(3 DOWNTO 0)) &
+        char_space &
+        char_space &
+        char_space &
+        char_space;
+
+    line2_buffer <= -- S EE MMMMMM;
+        nibble_to_char("000" & ax_in(31)) &
+        char_space &
+        nibble_to_char(ax_in(30 downto 27)) &
+        nibble_to_char(ax_in(26 downto 23)) &
+        char_space &
+        nibble_to_char('0' & ax_in(22 downto 20)) &
+        nibble_to_char(ax_in(19 downto 16)) &
+        nibble_to_char(ax_in(15 downto 12)) &
+        nibble_to_char(ax_in(11 downto 8)) &
+        nibble_to_char(ax_in(7 downto 4)) &
+        nibble_to_char(ax_in(3 downto 0)) &
+        char_space &
+        char_space &
+        char_space &
+        char_space &
+        char_space;
+
 END decoder_arch; -- decoder_arch

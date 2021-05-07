@@ -1,3 +1,15 @@
+--          INSTITUTO POLITECNICO NACIONAL 
+--           Escuela Superior de Cómputo
+--           Arquitectura de Computadoras
+--
+--           Jimenez Vargas Carlos Alexis
+--                Ramos Gómez Elisa
+--         Santillan Zaragoza Erick Ignacio
+--
+--     Practica 2 Arquitectura RISK de 8 bits
+
+-- Version 1.1
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.std_logic_arith.ALL;
@@ -17,16 +29,13 @@ ARCHITECTURE acc_arch OF accumulator IS
 BEGIN
 
     PROCESS (clk)
-        VARIABLE high, low : INTEGER;
     BEGIN
         IF rising_edge(clk) THEN
             IF clr = '1' THEN
                 acc_register <= (OTHERS => '0');
             ELSIF write_enable = '1' THEN
                 IF write_octet = '1' THEN
-                    low := conv_integer(unsigned(part)) * 8;
-                    high := low + 7;
-                    acc_register(high DOWNTO low) <= octet_in;
+                    acc_register(((conv_integer(unsigned(part)) + 1) * 8 - 1) DOWNTO conv_integer(unsigned(part)) * 8) <= octet_in;
                 ELSE
                     acc_register <= data_in;
                 END IF;

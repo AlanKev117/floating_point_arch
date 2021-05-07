@@ -1,3 +1,14 @@
+--          INSTITUTO POLITECNICO NACIONAL 
+--           Escuela Superior de Cómputo
+--           Arquitectura de Computadoras
+--
+--           Jimenez Vargas Carlos Alexis
+--                Ramos Gómez Elisa
+--         Santillan Zaragoza Erick Ignacio
+--
+--     Practica 2 Arquitectura RISK de 8 bits
+
+-- Version 1.1
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.std_logic_arith.ALL;
@@ -21,12 +32,12 @@ BEGIN
     BEGIN
         IF rising_edge(clk) THEN
             IF bit_mutate = '1' THEN -- mutate bit value from register
-                registers(conv_integer(prime_sel))(conv_integer(bit_pos)) <= bit_value;
+                registers(conv_integer(unsigned(prime_sel)))(conv_integer(unsigned(bit_pos))) <= bit_value;
             ELSIF read_write = '1' THEN -- write 32 bit value to register
-                registers(conv_integer(prime_sel)) <= data_in;
+                registers(conv_integer(unsigned(prime_sel))) <= data_in;
             ELSE -- read two registers
-                prime_out <= registers(conv_integer(prime_sel));
-                second_out <= registers(conv_integer(second_sel));
+                prime_out <= registers(conv_integer(unsigned(prime_sel)));
+                second_out <= registers(conv_integer(unsigned(second_sel)));
             END IF;
         ELSE
         END IF;

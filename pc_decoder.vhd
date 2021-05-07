@@ -1,3 +1,14 @@
+--          INSTITUTO POLITECNICO NACIONAL 
+--           Escuela Superior de Cómputo
+--           Arquitectura de Computadoras
+--
+--           Jimenez Vargas Carlos Alexis
+--                Ramos Gómez Elisa
+--         Santillan Zaragoza Erick Ignacio
+--
+--     Practica 2 Arquitectura RISK de 8 bits
+
+-- Version 1.1
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
