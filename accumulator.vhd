@@ -31,7 +31,7 @@ BEGIN
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
-            IF clr = '1' THEN
+            IF clr = '0' THEN
                 acc_register <= (OTHERS => '0');
             ELSIF write_enable = '1' THEN
                 IF write_octet = '1' THEN

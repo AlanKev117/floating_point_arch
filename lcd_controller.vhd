@@ -202,7 +202,7 @@ BEGIN
             END CASE;
 
             --reset
-            IF (reset_n = '1') THEN
+            IF (reset_n = '0') THEN
                 state <= power_up;
             END IF;
 

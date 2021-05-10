@@ -34,7 +34,7 @@ BEGIN
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
-            IF rising_edge(exe) THEN
+            IF falling_edge(exe) THEN
                 CASE opcode IS
 
                     WHEN "0000" => -- load byte to ax

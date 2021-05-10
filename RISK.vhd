@@ -97,7 +97,7 @@ BEGIN
     PCC : PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
-            IF clr = '1' THEN
+            IF clr = '0' THEN
                 pc <= (OTHERS => '0');
             ELSIF sig_pc_inc = '1' THEN
                 pc <= pc + 1;

@@ -54,7 +54,7 @@ BEGIN
         A => register_1,
         B => register_2,
         clk => clk,
-        reset => clr,
+        reset => not clr,
         go => go_mul,
         done => done_mul,
         overflow => ov_mul,
@@ -66,7 +66,7 @@ BEGIN
         A => register_1,
         B => register_2,
         clk => clk,
-        reset => clr,
+        reset => not clr,
         go => go_div,
         done => done_div,
         overflow => ov_div,
@@ -78,7 +78,7 @@ BEGIN
         A => register_1,
         B => register_2,
         clk => clk,
-        reset => clr,
+        reset => not clr,
         go => go_add,
         done => done_add,
         result => add_res
@@ -86,7 +86,7 @@ BEGIN
 
     PROCESS (clk, register_1, register_2, aluop)
     BEGIN
-        IF clr = '1' THEN
+        IF clr = '0' THEN
             state <= quiet;
             go_add <= '0';
             go_mul <= '0';
