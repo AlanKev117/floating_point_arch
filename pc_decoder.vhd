@@ -43,6 +43,7 @@ ARCHITECTURE display_dec_arch OF pc_decoder IS
             WHEN x"d" => result := "1000010"; -- d
             WHEN x"e" => result := "0110000"; -- E
             WHEN x"f" => result := "0111000"; -- F
+            WHEN others => result := "1111111"; -- turn off
         END CASE;
         RETURN result;
     END nibble_to_display;

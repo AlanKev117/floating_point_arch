@@ -34,27 +34,31 @@ ARCHITECTURE fpu_arch OF float_point_unit IS
     SIGNAL state : step;
     SIGNAL go_add, go_mul, go_div : STD_LOGIC;
     SIGNAL done_add, done_mul, done_div : STD_LOGIC;
-    SIGNAL add_res, mul_res, div_res : STD_LOGIC_VECTOR(31 DOWNTO 0);
+    SIGNAL add_res, mul_res, div_res, reg2 : STD_LOGIC_VECTOR(31 DOWNTO 0);
     SIGNAL ov_mul, ov_div : STD_LOGIC;
-    SIGNAL second_sign : STD_LOGIC;
+    SIGNAL second_sign, reset : STD_LOGIC;
 
 BEGIN
 
-    SIGN : PROCESS (aluop)
+    reset <= NOT clr;
+
+    SIGN : PROCESS (aluop, register_2)
     BEGIN
         IF aluop = "001" THEN
-            second_sign <= NOT register_1(31);
+            second_sign <= NOT register_2(31);
         ELSE
-            second_sign <= register_1(31);
+            second_sign <= register_2(31);
         END IF;
     END PROCESS;
+
+    reg2 <= second_sign & register_2(30 DOWNTO 0);
 
     MULT : FPP_MULT
     PORT MAP(
         A => register_1,
         B => register_2,
         clk => clk,
-        reset => not clr,
+        reset => reset,
         go => go_mul,
         done => done_mul,
         overflow => ov_mul,
@@ -66,7 +70,7 @@ BEGIN
         A => register_1,
         B => register_2,
         clk => clk,
-        reset => not clr,
+        reset => reset,
         go => go_div,
         done => done_div,
         overflow => ov_div,
@@ -76,15 +80,15 @@ BEGIN
     ADD_SUB : FPP_ADD_SUB
     PORT MAP(
         A => register_1,
-        B => register_2,
+        B => reg2,
         clk => clk,
-        reset => not clr,
+        reset => reset,
         go => go_add,
         done => done_add,
         result => add_res
     );
 
-    PROCESS (clk, register_1, register_2, aluop)
+    PROCESS (clk, clr, register_1, register_2, aluop)
     BEGIN
         IF clr = '0' THEN
             state <= quiet;
