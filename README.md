@@ -23,5 +23,5 @@ Arquitectura de punto flotante escrita en VHDL.
 
 | Instruccion | 13:10 | 9:8 | 7:5 | 4:0 |
 |---|---|---|---|---|
-| Fijar un bit de un registro | 1010 | registro | X | posición de bit |
-| Limpiar un bit de un registro | 1011 | registro | X | posición de bit |
+| Limpiar un bit de un registro | 1010 | registro | X | posición de bit |
+| Fijar un bit de un registro | 1011 | registro | X | posición de bit |

@@ -15,7 +15,7 @@ USE ieee.std_logic_arith.ALL;
 
 ENTITY register_file IS
     PORT (
-        clk, read_write, bit_mutate, bit_value : IN STD_LOGIC;
+        clk, write_value, bit_mutate, bit_value : IN STD_LOGIC;
         bit_pos : IN STD_LOGIC_VECTOR(4 DOWNTO 0);
         data_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
         prime_sel, second_sel : IN STD_LOGIC_VECTOR(1 DOWNTO 0); -- addresses
@@ -28,18 +28,17 @@ ARCHITECTURE register_arch OF register_file IS
     SIGNAL registers : reg_array;
 BEGIN
 
-    PROCESS (clk) IS
+    prime_out <= registers(conv_integer(unsigned(prime_sel)));
+    second_out <= registers(conv_integer(unsigned(second_sel)));
+
+    PROCESS (clk, bit_mutate, write_value) IS
     BEGIN
         IF rising_edge(clk) THEN
             IF bit_mutate = '1' THEN -- mutate bit value from register
                 registers(conv_integer(unsigned(prime_sel)))(conv_integer(unsigned(bit_pos))) <= bit_value;
-            ELSIF read_write = '1' THEN -- write 32 bit value to register
+            ELSIF write_value = '1' THEN -- write 32 bit value to register
                 registers(conv_integer(unsigned(prime_sel))) <= data_in;
-            ELSE -- read two registers
-                prime_out <= registers(conv_integer(unsigned(prime_sel)));
-                second_out <= registers(conv_integer(unsigned(second_sel)));
             END IF;
-        ELSE
         END IF;
     END PROCESS;
 

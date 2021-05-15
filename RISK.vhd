@@ -36,7 +36,7 @@ END RISK;
 
 ARCHITECTURE arch OF RISK IS
     SIGNAL pc : STD_LOGIC_VECTOR(7 DOWNTO 0);
-    SIGNAL sig_rf_read_write, sig_rf_bit_mutate, sig_rf_bit_value : STD_LOGIC;
+    SIGNAL sig_rf_write_value, sig_rf_bit_mutate, sig_rf_bit_value : STD_LOGIC;
     SIGNAL sig_ac_write_enable, sig_ac_write_octet, sig_ac_sel : STD_LOGIC;
     SIGNAL sig_aluop : STD_LOGIC_VECTOR(2 DOWNTO 0);
     SIGNAL sig_pc_inc : STD_LOGIC;
@@ -47,10 +47,9 @@ BEGIN
 
     CON : control_unit
     PORT MAP(
-        clk => clk,
         exe => exe,
         opcode => instruction(13 DOWNTO 10),
-        rf_read_write => sig_rf_read_write,
+        rf_write_value => sig_rf_write_value,
         rf_bit_mutate => sig_rf_bit_mutate,
         rf_bit_value => sig_rf_bit_value,
         ac_write_enable => sig_ac_write_enable,
@@ -62,7 +61,7 @@ BEGIN
     RF : register_file
     PORT MAP(
         clk => clk,
-        read_write => sig_rf_read_write,
+        write_value => sig_rf_write_value,
         bit_mutate => sig_rf_bit_mutate,
         bit_value => sig_rf_bit_value,
         bit_pos => instruction(4 DOWNTO 0),
@@ -94,18 +93,16 @@ BEGIN
         acc_value => accout_datain
     );
 
-    PCC : PROCESS (clk)
+    PCC : PROCESS (clk, clr)
     BEGIN
-        IF rising_edge(clk) THEN
-            IF clr = '0' THEN
-                pc <= (OTHERS => '0');
-            ELSIF sig_pc_inc = '1' THEN
+        IF clr = '0' THEN
+            pc <= (OTHERS => '0');
+        ELSIF rising_edge(clk) THEN
+            IF sig_pc_inc = '1' THEN
                 pc <= pc + 1;
-            ELSE
             END IF;
-        ELSE
         END IF;
-    END PROCESS; -- PC
+    END PROCESS; -- PCC
 
     -- MUX
     mux_out <= op_1 WHEN sig_ac_sel = '1' ELSE

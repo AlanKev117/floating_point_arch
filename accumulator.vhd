@@ -28,20 +28,18 @@ ARCHITECTURE acc_arch OF accumulator IS
     SIGNAL acc_register : STD_LOGIC_VECTOR(31 DOWNTO 0);
 BEGIN
 
-    PROCESS (clk)
+    PROCESS (clk, clr)
     BEGIN
-        IF rising_edge(clk) THEN
-            IF clr = '0' THEN
-                acc_register <= (OTHERS => '0');
-            ELSIF write_enable = '1' THEN
+        IF clr = '0' THEN
+            acc_register <= x"00000000";
+        ELSIF rising_edge(clk) THEN
+            IF write_enable = '1' THEN
                 IF write_octet = '1' THEN
                     acc_register(((conv_integer(unsigned(part)) + 1) * 8 - 1) DOWNTO conv_integer(unsigned(part)) * 8) <= octet_in;
                 ELSE
                     acc_register <= data_in;
                 END IF;
-            ELSE
             END IF;
-        ELSE
         END IF;
     END PROCESS;
 
