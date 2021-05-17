@@ -34,15 +34,6 @@ BEGIN
 
     PROCESS (clk, exe, performed)
     BEGIN
-        IF rising_edge(clk) THEN -- soltando el boton
-            IF exe = '1' THEN
-                performed <= false;
-            END IF;
-        END IF;
-    END PROCESS;
-
-    PROCESS (clk, exe, performed)
-    BEGIN
         IF rising_edge(clk) THEN
             IF NOT performed AND exe = '0' THEN
                 pc_inc <= '1';
@@ -155,6 +146,9 @@ BEGIN
                 rf_bit_value <= '0';
                 rf_write_value <= '0';
                 pc_inc <= '0';
+                IF exe = '1' THEN
+                    performed <= false;
+                END IF;
             END IF;
         END IF;
     END PROCESS;
