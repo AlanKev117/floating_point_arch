@@ -33,18 +33,18 @@ ARCHITECTURE con_arch OF control_unit IS
     --signal step : state;
 BEGIN
 
+    aluop <= "111"; -- no op. for alu
+    ac_write_enable <= '0';
+    ac_write_octet <= '0';
+    ac_sel <= '0';
+    rf_bit_mutate <= '0';
+    rf_bit_value <= '0';
+    rf_write_value <= '0';
+    pc_inc <= '0';
+
     PROCESS (exe)
     BEGIN
-        IF exe = '1' THEN
-            aluop <= "111"; -- no op. for alu
-            ac_write_enable <= '0';
-            ac_write_octet <= '0';
-            ac_sel <= '0';
-            rf_bit_mutate <= '0';
-            rf_bit_value <= '0';
-            rf_write_value <= '0';
-            pc_inc <= '0';
-        ELSIF falling_edge(exe) THEN
+        IF rising_edge(exe) THEN
             pc_inc <= '1';
             CASE opcode IS
                 WHEN "0000" => -- load byte to ax
