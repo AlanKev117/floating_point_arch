@@ -47,6 +47,7 @@ BEGIN
 
     CON : control_unit
     PORT MAP(
+        clk => clk,
         exe => exe,
         opcode => instruction(13 DOWNTO 10),
         rf_write_value => sig_rf_write_value,
