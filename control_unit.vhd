@@ -41,7 +41,7 @@ BEGIN
         END IF;
     END PROCESS
 
-    PROCESS (exe, performed)
+    PROCESS (clk, exe, performed)
     BEGIN
         IF rising_edge(clk) THEN
             IF NOT performed AND exe = '0' THEN
