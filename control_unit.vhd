@@ -39,7 +39,7 @@ BEGIN
                 performed <= false;
             END IF;
         END IF;
-    END PROCESS
+    END PROCESS;
 
     PROCESS (clk, exe, performed)
     BEGIN
